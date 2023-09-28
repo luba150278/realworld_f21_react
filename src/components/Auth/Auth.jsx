@@ -59,7 +59,7 @@ export default function Auth() {
           </Button>
         </Form>
       )}
-      {error.message && <p>ERROR</p>}
+      {/* {error.message && <p>ERROR</p>} */}
     </div>
   );
 }
