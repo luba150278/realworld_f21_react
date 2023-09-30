@@ -24,7 +24,7 @@ export const fetchGetAllPosts = createAsyncThunk('posts/getAll', async () => {
 });
 
 export const fetchCreatePost = createAsyncThunk(
-  'posts/getAll',
+  'posts/createPost',
   async (body) => {
     try {
       const res = await axios.post(
