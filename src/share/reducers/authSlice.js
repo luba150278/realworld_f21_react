@@ -56,9 +56,10 @@ export const fetchLogin = createAsyncThunk('auth/login', async (body) => {
     throw error;
   }
 });
+
 export const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: checkLocalStorage(),
   reducers: {
     logout: (state) => {
       state.token = '';
@@ -77,12 +78,39 @@ export const authSlice = createSlice({
       })
       .addCase(fetchAuth.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.user.token;
+        if (action.payload.user) {
+          const { username, token } = action.payload.user;
+          state.token = token;
+          state.username = username;
+          localStorage.setItem('username', username);
+          localStorage.setItem('token', token);
+        }
+
+        if (action.payload.errors) {
+          state.error = action.payload.errors;
+        }
+      })
+      .addCase(fetchLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        if (action.payload.user) {
+          const { username, token } = action.payload.user;
+          state.token = token;
+          state.username = username;
+          localStorage.setItem('username', username);
+          localStorage.setItem('token', token);
+        }
+
+        if (action.payload.errors) {
+          state.error = action.payload.errors;
+        }
       })
       .addCase(fetchAuth.rejected, (state, action) => {
         state.loading = false;
-        // state.token='';
-        state.error = action.payload;
+        state.error = action.error;
+      })
+      .addCase(fetchLogin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error;
       });
   },
 });
