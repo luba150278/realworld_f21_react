@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   token: '',
+  username: '',
   loading: false,
   error: {},
 };
@@ -18,13 +19,26 @@ export const fetchAuth = createAsyncThunk('auth/register', async (body) => {
 
     return res.data;
   } catch (error) {
-
+    if (error.response) {
+      return error.response.data;
+    }
     throw error;
   }
 });
+
+function checkAuth() {
+  if (localStorage.getItem('token')) {
+    return {
+      ...initialState,
+      token: localStorage.getItem('token'),
+      username: localStorage.getItem('username'),
+    };
+  }
+  return initialState;
+}
 export const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: checkAuth(),
   reducers: {
     getToken: (state) => {
       return { ...state, token: '123' };
@@ -37,12 +51,19 @@ export const authSlice = createSlice({
       })
       .addCase(fetchAuth.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.user.token;
+        if (action.payload.user) {
+          state.token = action.payload.user.token;
+          state.username = action.payload.user.usernsme;
+          localStorage.setItem('token', action.payload.user.token);
+          localStorage.setItem('username', action.payload.user.username);
+        }
+        if (action.payload.errors) {
+          state.error = action.payload.errors;
+        }
       })
       .addCase(fetchAuth.rejected, (state, action) => {
         state.loading = false;
-        // state.token='';
-        state.error = action.payload;
+        state.error = action.error;
       });
   },
 });
