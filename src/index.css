@@ -1,8 +1,8 @@
-@import "bootstrap/dist/css/bootstrap.min.css";
-:root{
-  --bg: #6A6DA6;
+@import 'bootstrap/dist/css/bootstrap.min.css';
+:root {
+  --bg: #6a6da6;
   --text-color: #151426;
-  --body: #F0F1F2;
+  --body: #f0f1f2;
   --contrast1: #323673;
   --contrast2: #010440;
 }
@@ -22,14 +22,20 @@ code {
     monospace;
 }
 
-header, footer{
+header,
+footer {
   background-color: var(--bg);
   padding: 20px 0;
   min-height: 10vh;
 }
-main{
+main {
   min-height: 80vh;
 }
-.login-icon{
+.login-icon {
   font-size: 30px;
+  cursor: pointer;
+}
+.create-icon {
+  font-size: 36px;
+  cursor: pointer;
 }
