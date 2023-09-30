@@ -1,6 +1,13 @@
-.wrap{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
+.wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+.userData {
+  color: #fff;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
 }
