@@ -1,3 +1,10 @@
 username: user28099
 email: user28099@gmail.com
 passwod: 12345Ab#
+
+username: user3009
+email: user3009@gmail.com
+passwod: 12345Ab#
+
+https://apidoc-articles-project.netlify.app/ Документація
+https://github.com/luba150278/realworld_f21_react
