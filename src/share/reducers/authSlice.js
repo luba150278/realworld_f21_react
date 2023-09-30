@@ -5,7 +5,6 @@ import { apiUrl } from '../api';
 const initialState = {
   username: '',
   token: '',
-  username: '',
   loading: false,
   error: {},
 };
