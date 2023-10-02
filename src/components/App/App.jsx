@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchGetAllPosts } from '../../share/reducers/postsSlice';
+
 import { Spinner } from 'react-bootstrap';
 import styles from './App.module.css';
+import { fetchGetAllPosts } from '../../share/reducers/fetch/post';
+import PostCard from '../PostCard/PostCard';
 
 function App() {
   const articles = useSelector((state) => state.posts.articles);
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.posts.loading);
+  const loading = useSelector((state) => state.loader.loading);
 
   useEffect(() => {
     dispatch(fetchGetAllPosts());
@@ -18,7 +20,7 @@ function App() {
       {loading && <Spinner animation='border' variant='primary' />}
       <div className={styles.wrap}>
         {articles.map((item, id) => (
-          <p key={id}>{item.title}</p>
+          <PostCard key ={id} post={item} />
         ))}
       </div>
     </div>

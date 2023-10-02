@@ -1,10 +1,11 @@
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
 import { IoCreateOutline } from 'react-icons/io5';
-import styles from './Header.module.css';
+
 import { IconContext } from 'react-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../share/reducers/authSlice';
+import styles from './Header.module.css';
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export default function Header() {
     <header>
       <div className='container'>
         <div className={styles.wrap}>
-          <h1>Logo</h1>
+          <h1 className={styles.h1}><Link to="/">Logo</Link></h1>
           <div>
             {!username ? (
               <Link to='/auth'>

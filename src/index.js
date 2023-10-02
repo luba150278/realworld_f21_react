@@ -9,6 +9,7 @@ import { store } from './share/store';
 import Layout from './components/Layout/Layuot';
 import Auth from './components/Auth/Auth';
 import Post from './components/Post/Post';
+import SinglePost from './components/SinglePost/SinglePost';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <Post />
+      </Layout>
+    ),
+  },
+  {
+    path: '/post/:slug',
+    element: (
+      <Layout>
+        <SinglePost />
       </Layout>
     ),
   },

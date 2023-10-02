@@ -1,23 +1,27 @@
-import { useState } from 'react';
-import { Form, Button, Spinner, Alert } from 'react-bootstrap';
+import { useState } from "react";
+import { Form, Button, Spinner, Alert } from "react-bootstrap";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAuth } from '../../share/reducers/authSlice';
+import { useDispatch, useSelector } from "react-redux";
 
-import styles from './Post.module.css';
+import styles from "./Post.module.css";
+import Error from "../Error/Error";
+import { fetchCreatePost } from "../../share/reducers/fetch/post";
 
 const initialState = {
-  username: '',
-  email: '',
-  password: '',
+  username: "",
+  email: "",
+  password: "",
 };
 export default function Post() {
-  const { loading, error } = useSelector((state) => state.auth);
+  const loading = useSelector((state) => state.loader.loading);
+  const postId = useSelector((state) => state.posts.id);
+
   const dispath = useDispatch();
   const [formData, setFormData] = useState(initialState);
   const handlerSumbit = (e) => {
     e.preventDefault();
-    dispath(fetchAuth(formData));
+    const tagList = formData.tagList.split(",").map((item) => item.trim());
+    dispath(fetchCreatePost({ ...formData, tagList }));
   };
 
   const changeHandler = (e) => {
@@ -27,49 +31,53 @@ export default function Post() {
 
   return (
     <>
-      {loading && <Spinner animation='border' variant='primary' />}
-      {error.body && (
-        <div>
-          {error.body.map((item) => (
-            <Alert key={item} variant='danger'>
-              {item}
-            </Alert>
-          ))}
-        </div>
-      )}
-      {error.message && <Alert variant='danger'>{error.mesaage}</Alert>}
+      {postId !== 0 && <Alert varaiant="success">Post created</Alert>}
+      {loading && <Spinner animation="border" variant="primary" />}
+      <Error />
       {!loading && (
-        <Form className={styles.form} onSubmit={(e) => handlerSumbit(e)}>
-          <Form.Group className='mb-3'>
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              name='username'
-              placeholder='Enter username'
-              onChange={(e) => changeHandler(e)}
-            />
-          </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type='email'
-              name='email'
-              placeholder='name@example.com'
-              onChange={(e) => changeHandler(e)}
-            />
-          </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              name='password'
-              onChange={(e) => changeHandler(e)}
-            />
-          </Form.Group>
+        <div className="container">
+          <Form className={styles.form} onSubmit={(e) => handlerSumbit(e)}>
+            <Form.Group className="mb-3">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                name="title"
+                placeholder="Enter title"
+                onChange={(e) => changeHandler(e)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>description</Form.Label>
+              <Form.Control
+                name="description"
+                placeholder="Enter description"
+                onChange={(e) => changeHandler(e)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>TagList. Enter by comma</Form.Label>
+              <Form.Control
+                name="tagList"
+                placeholder="Enter tagList"
+                onChange={(e) => changeHandler(e)}
+              />
+            </Form.Group>
 
-          <Button variant='primary' className='mb-3' type='submit'>
-            Registration
-          </Button>
-        </Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Post body</Form.Label>
+              <Form.Control
+                name="body"
+                placeholder="Enter post body"
+                as="textarea"
+                rows={8}
+                onChange={(e) => changeHandler(e)}
+              />
+            </Form.Group>
+
+            <Button variant="primary" className="mb-3" type="submit">
+              Create Post
+            </Button>
+          </Form>
+        </div>
       )}
     </>
   );

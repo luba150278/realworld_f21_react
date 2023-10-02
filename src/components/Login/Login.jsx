@@ -1,23 +1,24 @@
-import { useState } from 'react';
-import { Form, Button, Spinner, Alert } from 'react-bootstrap';
+import { useState } from "react";
+import { Form, Button, Spinner } from "react-bootstrap";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchLogin } from '../../share/reducers/authSlice';
+import { useDispatch, useSelector } from "react-redux";
 
-import styles from './Login.module.css';
+import styles from "./Login.module.css";
+import { fetchAuth } from "../../share/reducers/fetch/auth";
+import Error from "../Error/Error";
 
 const initialState = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 export default function Login() {
+  const loading = useSelector((state) => state.loader.loading);
 
-  const { loading, error } = useSelector((state) => state.auth);
   const dispath = useDispatch();
   const [formData, setFormData] = useState(initialState);
   const handlerSumbit = (e) => {
     e.preventDefault();
-    dispath(fetchLogin(formData));
+    dispath(fetchAuth({ body: formData, path: "/users/login" }));
   };
 
   const changeHandler = (e) => {
@@ -25,47 +26,34 @@ export default function Login() {
     setFormData({ ...formData, [name]: value });
   };
 
-
-
   return (
     <>
-      {loading && <Spinner animation='border' variant='primary' />}
-      {error.body && (
-        <div>
-          {error.body.map((item) => (
-            <Alert key={item} variant='danger'>
-              {item}
-            </Alert>
-          ))}
-        </div>
-      )}
-      {error.message && <Alert variant='danger'>{error.mesaage}</Alert>}
-      {!loading && (
-        <Form className={styles.form} onSubmit={(e) => handlerSumbit(e)}>
+      {loading && <Spinner animation="border" variant="primary" />}
+      <Error />
 
-          <Form.Group className='mb-3'>
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type='email'
-              name='email'
-              placeholder='name@example.com'
-              onChange={(e) => changeHandler(e)}
-            />
-          </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              name='password'
-              onChange={(e) => changeHandler(e)}
-            />
-          </Form.Group>
+      <Form className={styles.form} onSubmit={(e) => handlerSumbit(e)}>
+        <Form.Group className="mb-3">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            placeholder="name@example.com"
+            onChange={(e) => changeHandler(e)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            onChange={(e) => changeHandler(e)}
+          />
+        </Form.Group>
 
-          <Button variant='primary' className='mb-3' type='submit'>
-            Login
-          </Button>
-        </Form>
-      )}
+        <Button variant="primary" className="mb-3" type="submit">
+          Login
+        </Button>
+      </Form>
     </>
   );
 }
