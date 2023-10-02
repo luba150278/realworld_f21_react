@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   articles: [],
@@ -7,20 +7,19 @@ const initialState = {
 };
 
 export const postsSlice = createSlice({
-  name: "posts",
+  name: 'posts',
   initialState,
   reducers: {
     setArticles: (state, action) => {
-      const {articles, articlesCount}= action.payload
+      const { articles, articlesCount } = action.payload;
       state.articles = articles;
       state.articlesCount = articlesCount;
     },
-    createArticle: (state, action)=>{
-        state.id = action.payload.id
-    }
+    createArticle: (state, action) => {
+      state.id = action.payload.id;
+    },
   },
-
 });
 
-export const {setArticles, createArticle} = postsSlice.actions
+export const { setArticles, createArticle } = postsSlice.actions;
 export default postsSlice.reducer;
