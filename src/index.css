@@ -1,11 +1,5 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
-:root {
-  --bg: #6a6da6;
-  --text-color: #151426;
-  --body: #f0f1f2;
-  --contrast1: #323673;
-  --contrast2: #010440;
-}
+@import './_var.css';
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -38,4 +32,7 @@ main {
 .create-icon {
   font-size: 36px;
   cursor: pointer;
+}
+.ql-container.ql-snow{
+  border: none !important;
 }

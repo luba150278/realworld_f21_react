@@ -1,4 +1,11 @@
 .form{
-  max-width: 400px;
+  max-width: 600px;
   margin-top: 40px;
+  display: grid;
+}
+
+.editor{
+  background-color: #fff;
+  height: 250px;
+  border: none
 }

@@ -45,7 +45,7 @@ export default function Header() {
                     }}
                   />
                 </IconContext.Provider>
-                {username}
+                <Link to="/user">{username}</Link>
               </div>
             )}
           </div>

@@ -1,6 +1,36 @@
-.wrap{
-  margin: 40px 0;
+@import "../../_var.css";
+
+.grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 60px;
+  grid-template-columns: 4fr 1fr;
+  margin: 40px 0;
+}
+
+.tags {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  grid-auto-rows: max-content;
+}
+
+.tag {
+  border: 1px solid var(--contrast2);
+  padding: 6px;
+  background-color: var(--bg-light);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-color);
+  text-decoration: none;
+}
+.tag:hover {
+  background-color: var(--bg-medium);
+}
+.active{
+  background-color: var(--contrast1);
+  color: var(--body)
+}
+.active:hover {
+  background-color: var(--contrast1);
+  color: var(--body)
 }

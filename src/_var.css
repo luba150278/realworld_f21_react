@@ -1,0 +1,9 @@
+:root {
+    --bg: #6a6da6;
+    --bg-light: rgb(106, 109, 166, 0.2);
+    --bg-medium: rgb(106, 109, 166, 0.3);
+    --text-color: #151426;
+    --body: #f0f1f2;
+    --contrast1: #323673;
+    --contrast2: #010440;
+  }

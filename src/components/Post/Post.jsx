@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Form, Button, Spinner, Alert } from "react-bootstrap";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,6 +15,7 @@ const initialState = {
   password: "",
 };
 export default function Post() {
+  const [value, setValue] = useState('');
   const loading = useSelector((state) => state.loader.loading);
   const postId = useSelector((state) => state.posts.id);
 
@@ -21,7 +24,7 @@ export default function Post() {
   const handlerSumbit = (e) => {
     e.preventDefault();
     const tagList = formData.tagList.split(",").map((item) => item.trim());
-    dispath(fetchCreatePost({ ...formData, tagList }));
+    dispath(fetchCreatePost({ ...formData, tagList, body: value }));
   };
 
   const changeHandler = (e) => {
@@ -64,13 +67,14 @@ export default function Post() {
 
             <Form.Group className="mb-3">
               <Form.Label>Post body</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 name="body"
                 placeholder="Enter post body"
                 as="textarea"
                 rows={8}
                 onChange={(e) => changeHandler(e)}
-              />
+              /> */}
+              <ReactQuill theme="snow" value={value} onChange={setValue} className={styles.editor}/>
             </Form.Group>
 
             <Button variant="primary" className="mb-3" type="submit">

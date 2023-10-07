@@ -12,7 +12,7 @@ export const fetchGetAllPosts = createAsyncThunk(
     try {
       dispatch(startLoading());
       const res = await axios.get(apiUrl + "/articles");
-      console.log(res.data)
+
       dispatch(setArticles(res.data));
       dispatch(clearError());
       dispatch(stopLoading());
@@ -27,6 +27,56 @@ export const fetchGetAllPosts = createAsyncThunk(
     }
   }
 );
+
+export const fetchPostsByTag = createAsyncThunk(
+  "posts/getByTag",
+  async (tag, { dispatch }) => {
+    try {
+      dispatch(startLoading());
+      const res = await axios.get(`${apiUrl}/articles/?tag=${tag}`);
+
+      dispatch(setArticles(res.data));
+      dispatch(clearError());
+      dispatch(stopLoading());
+    } catch (error) {
+      dispatch(stopLoading());
+      if (error.response) {
+        dispatch(setError(error.response.data));
+        return;
+      }
+
+      dispatch(setError(error));
+    }
+  }
+);
+
+export const fetchPostsByUser = createAsyncThunk(
+  "posts/getByUser",
+  async (id, { dispatch }) => {
+    try {
+      dispatch(startLoading());
+      const res = await axios.get(`${apiUrl}/articles/?authorId=${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `token ${localStorage.getItem("token")}`,
+        },
+      });
+
+      dispatch(setArticles(res.data));
+      dispatch(clearError());
+      dispatch(stopLoading());
+    } catch (error) {
+      dispatch(stopLoading());
+      if (error.response) {
+        dispatch(setError(error.response.data));
+        return;
+      }
+
+      dispatch(setError(error));
+    }
+  }
+);
+
 
 export const fetchCreatePost = createAsyncThunk(
   "posts/createPost",
