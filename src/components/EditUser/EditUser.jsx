@@ -1,5 +1,5 @@
 import { Form, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 
 const initialState = {
@@ -10,7 +10,7 @@ const initialState = {
   };
 export default function EditUser() {
     const username = useSelector((state) => state.auth.username);
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     const [formData, setFormData] = useState(initialState);
     const handlerSumbit = (e) => {
