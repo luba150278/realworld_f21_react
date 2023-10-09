@@ -4,6 +4,8 @@ const initialState = {
   articles: [],
   articlesCount: 0,
   id: 0,
+  limit: 4,
+  offset: 0,
 };
 
 export const postsSlice = createSlice({
@@ -18,8 +20,12 @@ export const postsSlice = createSlice({
     createArticle: (state, action) => {
       state.id = action.payload.id;
     },
+    changePagination: (state, action)=>{
+      const page = action.payload;
+      state.offset = state.limit*(page-1)
+    }
   },
 });
 
-export const { setArticles, createArticle } = postsSlice.actions;
+export const { setArticles, createArticle, changePagination } = postsSlice.actions;
 export default postsSlice.reducer;

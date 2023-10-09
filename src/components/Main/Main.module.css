@@ -3,3 +3,17 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
+.btns{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.btns button{
+  background-color: transparent;
+  border: 1px solid black;
+  color: black;
+}
+.btns button.active{
+  background-color: aqua;
+}

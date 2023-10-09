@@ -26,7 +26,7 @@ function App() {
       setTags(res.data.tags);
     }
     getTags();
-  }, [tags]);
+  }, []);
 
   return (
     <div className="container">
@@ -34,11 +34,6 @@ function App() {
       <Error />
       <div className={styles.grid}>
         <Main />
-        {/* <div className={styles.wrap}>
-          {articles.map((item, id) => (
-            <PostCard key={id} post={item} />
-          ))}
-        </div> */}
         <div className={styles.tags}>
           {tags.map((item, i) => (
             <Button

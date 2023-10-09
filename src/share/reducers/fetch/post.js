@@ -8,10 +8,13 @@ import { createArticle, setArticles } from "../postsSlice";
 
 export const fetchGetAllPosts = createAsyncThunk(
   "posts/getAll",
-  async (_, { dispatch }) => {
+  async (_, { getState, dispatch }) => {
     try {
+      const state = getState();
+      const limit = state.posts.limit;
+      const offset = state.posts.offset;
       dispatch(startLoading());
-      const res = await axios.get(apiUrl + "/articles");
+      const res = await axios.get(apiUrl + `/articles/?limit=${limit}&offset=${offset}`);
 
       dispatch(setArticles(res.data));
       dispatch(clearError());
@@ -30,10 +33,13 @@ export const fetchGetAllPosts = createAsyncThunk(
 
 export const fetchPostsByTag = createAsyncThunk(
   "posts/getByTag",
-  async (tag, { dispatch }) => {
+  async (tag, { getState, dispatch }) => {
     try {
+      const state = getState();
+      const limit = state.posts.limit;
+      const offset = state.posts.offset;
       dispatch(startLoading());
-      const res = await axios.get(`${apiUrl}/articles/?tag=${tag}`);
+      const res = await axios.get(`${apiUrl}/articles/?limit=${limit}&offset=${offset}&tag=${tag}`);
 
       dispatch(setArticles(res.data));
       dispatch(clearError());
@@ -52,16 +58,19 @@ export const fetchPostsByTag = createAsyncThunk(
 
 export const fetchPostsByUser = createAsyncThunk(
   "posts/getByUser",
-  async (id, { dispatch }) => {
+  async (id, { getState, dispatch }) => {
     try {
+      const state = getState();
+      const limit = state.posts.limit;
+      const offset = state.posts.offset;
       dispatch(startLoading());
-      const res = await axios.get(`${apiUrl}/articles/?authorId=${id}`, {
+      const res = await axios.get(`${apiUrl}/articles/?limit=${limit}&offset=${offset}&authorId=${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${localStorage.getItem("token")}`,
         },
       });
-
+      
       dispatch(setArticles(res.data));
       dispatch(clearError());
       dispatch(stopLoading());
