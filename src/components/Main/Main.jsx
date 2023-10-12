@@ -70,7 +70,7 @@ export default function Main() {
           </Button>
         )}
       </div>
-      <Posts />
+      <Posts variant={variant} id={id} activeTag={activeTag} />
       {articlesCount > limit && (
         <Pagination>
           {items.map((item) => (
