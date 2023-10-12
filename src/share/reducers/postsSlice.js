@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   articles: [],
@@ -6,10 +6,11 @@ const initialState = {
   id: 0,
   limit: 4,
   offset: 0,
+  slug: "",
 };
 
 export const postsSlice = createSlice({
-  name: 'posts',
+  name: "posts",
   initialState,
   reducers: {
     setArticles: (state, action) => {
@@ -20,12 +21,24 @@ export const postsSlice = createSlice({
     createArticle: (state, action) => {
       state.id = action.payload.id;
     },
-    changePagination: (state, action)=>{
+    changePagination: (state, action) => {
       const page = action.payload;
-      state.offset = state.limit*(page-1)
-    }
+      state.offset = state.limit * (page - 1);
+    },
+    setPostSlug: (state, action) => {
+      state.slug = action.payload;
+    },
+    clearPostSlug: (state) => {
+      state.slug = "";
+    },
   },
 });
 
-export const { setArticles, createArticle, changePagination } = postsSlice.actions;
+export const {
+  setArticles,
+  createArticle,
+  changePagination,
+  setPostSlug,
+  clearPostSlug,
+} = postsSlice.actions;
 export default postsSlice.reducer;

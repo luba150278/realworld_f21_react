@@ -10,7 +10,7 @@ import Layout from './components/Layout/Layuot';
 import Auth from './components/Auth/Auth';
 import Post from './components/Post/Post';
 import SinglePost from './components/SinglePost/SinglePost';
-import EditUser from './components/EditUser/EditUser';
+import UserCabinet from './components/UserCabinet/UserCabinet';
 
 const router = createBrowserRouter([
   {
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
     path: '/user',
     element: (
       <Layout>
-        <EditUser />
+        <UserCabinet />
       </Layout>
     ),
   },

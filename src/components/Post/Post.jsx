@@ -1,30 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button, Spinner, Alert } from "react-bootstrap";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./Post.module.css";
 import Error from "../Error/Error";
-import { fetchCreatePost } from "../../share/reducers/fetch/post";
+import {
+  fetchCreatePost,
+  fetchEditPost,
+} from "../../share/reducers/fetch/post";
+import { clearPostSlug } from "../../share/reducers/postsSlice";
 
 const initialState = {
-  username: "",
-  email: "",
-  password: "",
+  title: "",
+  description: "",
+  tagList: "",
+  body: "",
 };
 export default function Post() {
-  const [value, setValue] = useState('');
+  const slug = useSelector((state) => state.posts.slug);
+  const post = useSelector((state) => state.posts.articles).find(
+    (item) => item.slug === slug
+  );
+
+  const [value, setValue] = useState("");
   const loading = useSelector((state) => state.loader.loading);
   const postId = useSelector((state) => state.posts.id);
 
   const dispath = useDispatch();
-  const [formData, setFormData] = useState(initialState);
-  const handlerSumbit = (e) => {
+  const [formData, setFormData] = useState(!post ? initialState : { ...post });
+
+  const handlerSumbit = async (e) => {
     e.preventDefault();
     const tagList = formData.tagList.split(",").map((item) => item.trim());
-    dispath(fetchCreatePost({ ...formData, tagList, body: value }));
+    if (post) {
+      await dispath(
+        fetchEditPost({
+          body: { ...formData, tagList, body: value },
+          slug: post.slug,
+        })
+      );
+      dispath(clearPostSlug())
+    } else {
+      dispath(fetchCreatePost({ ...formData, tagList, body: value }));
+    }
   };
 
   const changeHandler = (e) => {
@@ -32,9 +53,18 @@ export default function Post() {
     setFormData({ ...formData, [name]: value });
   };
 
+  useEffect(() => {
+    if (post) {
+      setValue(post.body);
+    }
+  }, [post]);
   return (
     <>
-      {postId !== 0 && <Alert varaiant="success">Post created</Alert>}
+      {postId !== 0 && (
+        <Alert varaiant="success">
+          {post ? "Post updated" : "Post created"}
+        </Alert>
+      )}
       {loading && <Spinner animation="border" variant="primary" />}
       <Error />
       {!loading && (
@@ -46,6 +76,7 @@ export default function Post() {
                 name="title"
                 placeholder="Enter title"
                 onChange={(e) => changeHandler(e)}
+                value={formData.title}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -53,6 +84,7 @@ export default function Post() {
               <Form.Control
                 name="description"
                 placeholder="Enter description"
+                value={formData.description}
                 onChange={(e) => changeHandler(e)}
               />
             </Form.Group>
@@ -62,6 +94,7 @@ export default function Post() {
                 name="tagList"
                 placeholder="Enter tagList"
                 onChange={(e) => changeHandler(e)}
+                value={formData.tagList}
               />
             </Form.Group>
 
@@ -74,11 +107,16 @@ export default function Post() {
                 rows={8}
                 onChange={(e) => changeHandler(e)}
               /> */}
-              <ReactQuill theme="snow" value={value} onChange={setValue} className={styles.editor}/>
+              <ReactQuill
+                theme="snow"
+                value={value}
+                onChange={setValue}
+                className={styles.editor}
+              />
             </Form.Group>
 
             <Button variant="primary" className="mb-3" type="submit">
-              Create Post
+              {post ? "Edit post" : "Create Post"}
             </Button>
           </Form>
         </div>
