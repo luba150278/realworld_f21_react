@@ -1,0 +1,11 @@
+.wrap{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: 40px;
+    margin-top: 40px;
+}
+.tabs{
+    display: grid;
+    grid-auto-rows: max-content;
+    gap: 20px;
+}

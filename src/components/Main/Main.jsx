@@ -4,6 +4,7 @@ import { Button, Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchGetAllPosts,
+  fetchPostsByTag,
   fetchPostsByUser,
 } from "../../share/reducers/fetch/post";
 import styles from "./Main.module.css";
@@ -21,6 +22,12 @@ export default function Main() {
   const articlesCount = useSelector((state) => state.posts.articlesCount);
   const dispatch = useDispatch();
 
+
+  const isChangePag = (check)=>{
+    if(check){
+      setActivePage(1)
+    }
+  }
   useEffect(() => {
     const arr = [];
     for (let number = 1; number <= Math.ceil(articlesCount / limit); number++) {
@@ -63,6 +70,7 @@ export default function Main() {
           <Button
             onClick={() => {
               setBtn(3);
+              dispatch(fetchPostsByTag(activeTag))
             }}
             className={variant === 3 && styles.active}
           >
@@ -70,7 +78,7 @@ export default function Main() {
           </Button>
         )}
       </div>
-      <Posts />
+      <Posts variant={variant} isChangePag={isChangePag} />
       {articlesCount > limit && (
         <Pagination>
           {items.map((item) => (
