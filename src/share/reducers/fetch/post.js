@@ -11,7 +11,7 @@ export const fetchDeletePost = createAsyncThunk(
     try {
 
       dispatch(startLoading());
-      const res = await axios.delete(apiUrl + `/articles/${slug}`, {
+      await axios.delete(apiUrl + `/articles/${slug}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${localStorage.getItem("token")}`,
@@ -169,6 +169,77 @@ export const fetchEditPost = createAsyncThunk(
       );
 
       dispatch(createArticle(res.data.article));
+      dispatch(clearError());
+      dispatch(stopLoading());
+    } catch (error) {
+      dispatch(stopLoading());
+      if (error.response) {
+        dispatch(setError(error.response.data));
+        return;
+      }
+
+      dispatch(setError(error));
+    }
+  }
+);
+
+
+export const fetchPostComments = createAsyncThunk(
+  "post/getComments",
+  async (slug, { dispatch }) => {
+    try {
+      dispatch(startLoading());
+
+      const res = await axios.get(
+        apiUrl + "/articles/"+slug+"/comments" 
+      );
+
+       if(res.data.comments){
+        dispatch(stopLoading());
+         return res.data.comments
+       }
+
+      // dispatch(createArticle(res.data.article));
+      dispatch(clearError());
+      dispatch(stopLoading());
+    } catch (error) {
+      dispatch(stopLoading());
+      if (error.response) {
+        dispatch(setError(error.response.data));
+        return;
+      }
+
+      dispatch(setError(error));
+    }
+  }
+);
+
+export const fetchAddComment = createAsyncThunk(
+  "post/addComment",
+  async ({slug, comment}, { dispatch }) => {
+    try {
+      dispatch(startLoading());
+     console.log(slug)
+      const res = await axios.post(
+        apiUrl + "/articles/"+slug+"/comments", {
+          "comment": {
+            "body": comment
+          }
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `token ${localStorage.getItem("token")}`,
+          },
+        }  
+      );
+
+       if(res.data.comment){
+        dispatch(stopLoading());
+         return res.data.comment
+       }
+
+      // dispatch(createArticle(res.data.article));
       dispatch(clearError());
       dispatch(stopLoading());
     } catch (error) {

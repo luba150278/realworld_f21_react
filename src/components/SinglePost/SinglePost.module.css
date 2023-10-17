@@ -1,0 +1,25 @@
+.form {
+  width: 600px;
+}
+.comments {
+  display: grid;
+  gap: 20px;
+}
+.comment {
+  display: grid;
+  gap: 5px;
+  border-bottom: 1px solid #dee2e6;
+  max-width: 40%;
+}
+.last{
+  border-bottom: none
+}
+.title {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  justify-content: space-between;
+}
+.title > * {
+  margin: 0;
+}
